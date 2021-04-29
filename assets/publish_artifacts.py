@@ -25,7 +25,6 @@ def build_artifacts(rospypi: pathlib.Path) -> List[ArtifactInfo]:
 def has_new_artifacts(artifacts: List[ArtifactInfo], repo: git.Repo) -> bool:
     has_change = any(a.previous_version != a.generated_version for a in artifacts)
     if has_change:
-        assert repo.is_dirty()
         return True
 
     return False
