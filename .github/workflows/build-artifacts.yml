@@ -46,7 +46,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
           cd assets/
-          pipenv run python publish_artifacts.py
+          pipenv run python publish_artifacts.py \
+            --url https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/rospypi/ros_stubs.git
     - name: Build artifacts
       if: github.ref != env.MASTER_BRANCH
       env:
