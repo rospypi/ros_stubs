@@ -30,6 +30,10 @@ If you find this repository doesn't have the stub package you want to contribute
 To create a new stub package, add a directory ending with name ending with `-stubs` under `src` directory.
 Also, please add `_package.yaml` in the directory to define the stub information.
 
+### Testing
+
+Install `tox` and run `tox` command in the root of this repository.
+
 ### Building stubs
 
 All the stub packages are built and published using GitHub actions,
