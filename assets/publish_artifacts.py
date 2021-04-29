@@ -2,14 +2,19 @@ import argparse
 import pathlib
 import sys
 import tempfile
+from datetime import datetime
 from typing import List
 
 import build_ros_stubs
 import git
 from buildtool.builder import ArtifactInfo
 
-DEFAULT_ROSPYPI_SIMPLE_URL = "git@github.com:rospypi/simple.git"
+DEFAULT_ROSPYPI_SIMPLE_URL = "https://github.com/rospypi/simple.git"
 DEFAULT_ARTIFACT_BRANCH = "any_stubs"
+
+GIT_ATTRIBUTES_CONTENT = """*.whl filter=lfs diff=lfs merge=lfs -text
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
+"""
 
 
 def clone_rospypi_simple(remote_url: str, dst: pathlib.Path, branch: str) -> git.Repo:
@@ -30,19 +35,31 @@ def has_new_artifacts(artifacts: List[ArtifactInfo], repo: git.Repo) -> bool:
     return False
 
 
-def commit_artifacts(repo: git.Repo) -> None:
-    repo.index.add("**/*.tar.gz")
-    repo.index.add("**/*.whl")
+def commit_artifacts(repo_dir: pathlib.Path, repo: git.Repo) -> None:
+    repo.head.reset(index=True, working_tree=True)
+
+    (repo_dir / ".gitattributes").write_text(GIT_ATTRIBUTES_CONTENT)
+    repo.index.add(".gitattributes")
+
+    # NOTE: As GitPython doesn't support git-lfs,
+    # use low-level API to track the following files as lfs objects
+    repo.git.add("**/*.tar.gz")
+    repo.git.add("**/*.whl")
+
+    # NOTE: Use parent_commits=[] to create an orphan commit,
+    # then update current head to refer to the commit by head=True
     repo.index.commit(
-        "Release ros_stubs: {}",
+        "Release ros_stubs: {}".format(datetime.now().isoformat()),
         author=git.Actor("ros_stubs", "ros_stubs@noreply.github.com"),
+        head=True,
+        parent_commits=[],
     )
 
     assert not repo.is_dirty()
 
 
 def push_artifacts(repo: git.Repo) -> None:
-    repo.remote().push()
+    repo.remote().push(force=True)
 
 
 def main() -> None:
@@ -57,6 +74,11 @@ def main() -> None:
         help="Target branch to push artifacts",
         default=DEFAULT_ARTIFACT_BRANCH,
     )
+    parser.add_argument(
+        "--no-push",
+        help="Do not push artifacts to remote repository",
+        action="store_true",
+    )
     args = parser.parse_args()
 
     build_ros_stubs.setup_logger()
@@ -65,21 +87,22 @@ def main() -> None:
         rospypi_dir = tempdir / "rospypi"
         rospypi_dir.mkdir()
 
-        print("Cloning rospypi")
+        print("* Cloning rospypi")
         repo = clone_rospypi_simple(args.simple_url, rospypi_dir, args.branch)
-        print("Building artifacts")
+        print("* Building artifacts")
         artifacts = build_artifacts(rospypi_dir)
 
         if not has_new_artifacts(artifacts, repo):
-            print("Nothing has been changed, exit")
+            print("=> Nothing has been changed, exit")
             sys.exit(0)
 
-        print("Creating commit")
-        commit_artifacts(repo)
-        print("Push to remote")
-        push_artifacts(repo)
+        print("* Creating commit")
+        commit_artifacts(rospypi_dir, repo)
+        if not args.no_push:
+            print("* Force push to remote")
+            push_artifacts(repo)
 
-        print("Done")
+        print("=> Done")
 
 
 if __name__ == "__main__":

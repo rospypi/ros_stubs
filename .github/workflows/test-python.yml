@@ -1,0 +1,20 @@
+name: Python tests
+on: [push]
+env:
+  DEBIAN_FRONTEND: noninteractive
+  TOX_VERSION: 3.23.0
+jobs:
+  py37:
+    name: py38
+    runs-on: ubuntu-latest
+    container:
+      # python:3.8-buster has git>=2.20 which actions/checkout@v2 requires
+      image: python:3.8-buster
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      run: |
+          pip3 install tox==${{ env.TOX_VERSION }}
+    - name: Run pytest
+      run: |
+          tox
