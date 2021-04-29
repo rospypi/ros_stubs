@@ -1,6 +1,7 @@
 import argparse
 import logging
 import pathlib
+from typing import List, Optional
 
 from buildtool import builder, context
 
@@ -15,34 +16,19 @@ def setup_logger() -> None:
     buildtool_logger.addHandler(handler)
 
 
-def main() -> None:
-    setup_logger()
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--src",
-        help="Source directory to find stub packages",
-        type=str,
-        default=str(REPO_ROOT / "src"),
-    )
-    parser.add_argument(
-        "--build",
-        help="Build directory to generate built packages",
-        type=str,
-        default=str(REPO_ROOT / "build"),
-    )
-    parser.add_argument(
-        "--out",
-        help="Output directory to store build artifacts",
-        type=str,
-        default=str(REPO_ROOT / "artifacts"),
-    )
-    args = parser.parse_args()
+def run(
+    src: Optional[pathlib.Path],
+    build: Optional[pathlib.Path],
+    out: Optional[pathlib.Path],
+) -> List[builder.ArtifactInfo]:
+    source_dir = src or REPO_ROOT / "src"
+    build_dir = build or REPO_ROOT / "build"
+    artifacts_dir = out or REPO_ROOT / "artifacts"
 
     ctx = context.BuilderContext(
-        source_dir=pathlib.Path(args.src),
-        build_dir=pathlib.Path(args.build),
-        artifacts_dir=pathlib.Path(args.out),
+        source_dir=source_dir,
+        build_dir=build_dir,
+        artifacts_dir=artifacts_dir,
     )
     ctx.variables["ROS_SHARE_DIR"] = "/opt/ros/melodic/share"
 
@@ -64,6 +50,35 @@ def main() -> None:
                 footer,
             )
         )
+
+    return artifacts
+
+
+def main() -> None:
+    setup_logger()
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--src",
+        help="Source directory to find stub packages",
+        type=pathlib.Path,
+        default=None,
+    )
+    parser.add_argument(
+        "--build",
+        help="Build directory to generate built packages",
+        type=pathlib.Path,
+        default=None,
+    )
+    parser.add_argument(
+        "--out",
+        help="Output directory to store build artifacts",
+        type=pathlib.Path,
+        default=None,
+    )
+    args = parser.parse_args()
+
+    run(args.src, args.build, args.out)
 
 
 if __name__ == "__main__":
