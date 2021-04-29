@@ -30,7 +30,8 @@ jobs:
           apt-get install -y --no-install-recommends git git-lfs openssh-client
 
           ssh-agent -a ${{ env.SSH_AUTH_SOCK}} > /dev/null
-          ssh-add - <<< "${{ secrets.ROSPYPI_SIMPLE_DEPLOY_KEY }}"
+          echo "${{ secrets.ROSPYPI_SIMPLE_DEPLOY_KEY }}" > ~/deploy_key
+          ssh-add ~/deploy_key
     - uses: actions/checkout@v2
     - name: Set up Python
       run: |
