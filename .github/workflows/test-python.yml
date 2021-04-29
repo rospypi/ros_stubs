@@ -8,19 +8,9 @@ jobs:
     name: py38
     runs-on: ubuntu-latest
     container:
-      image: python:3.8
+      # python:3.8-buster has git>=2.20 which actions/checkout@v2 requires
+      image: python:3.8-buster
     steps:
-    - name: Set up apt
-      run: |
-          apt-get update -y
-          apt-get install -y --no-install-recommends software-properties-common
-    - name: Set up git
-      run: |
-          # In order to create a local git repository
-          # in actions/checkout@v2, git>=2.18 is required
-          add-apt-repository ppa:git-core/ppa
-          apt-get update -y
-          apt-get install -y --no-install-recommends git
     - uses: actions/checkout@v2
     - name: Set up Python
       run: |
