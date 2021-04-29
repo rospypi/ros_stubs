@@ -50,6 +50,7 @@ jobs:
       if: github.ref == env.MASTER_BRANCH
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GIT_SSH_COMMAND: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
       run: |
           cd assets/
           pipenv run python publish_artifacts.py
@@ -57,6 +58,7 @@ jobs:
       if: github.ref != env.MASTER_BRANCH
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GIT_SSH_COMMAND: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
       run: |
           cd assets/
           pipenv run python publish_artifacts.py --no-push
