@@ -9,7 +9,6 @@ env:
   DEBIAN_FRONTEND: noninteractive
   MASTER_BRANCH: refs/heads/master
   VERSION_PIPENV: 2020.11.15
-  SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 jobs:
   build-stubs:
     name: Build ros_stubs
@@ -44,10 +43,10 @@ jobs:
     - name: Build and push artifacts
       if: github.ref == env.MASTER_BRANCH
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GIT_SSH_COMMAND: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
-          ssh-agent -a ${{ env.SSH_AUTH_SOCK}} > /dev/null
+          ssh-agent -a ${SSH_AUTH_SOCK} > /dev/null
           echo "${{ secrets.ROSPYPI_SIMPLE_DEPLOY_KEY }}" > ~/deploy_key
           chmod 600 ~/deploy_key
           ssh-add ~/deploy_key
@@ -56,8 +55,6 @@ jobs:
           pipenv run python publish_artifacts.py --simple-url git@github.com:rospypi/simple.git
     - name: Build artifacts
       if: github.ref != env.MASTER_BRANCH
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
           cd assets/
           pipenv run python publish_artifacts.py --no-push
