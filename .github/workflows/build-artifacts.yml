@@ -31,6 +31,7 @@ jobs:
 
           ssh-agent -a ${{ env.SSH_AUTH_SOCK}} > /dev/null
           echo "${{ secrets.ROSPYPI_SIMPLE_DEPLOY_KEY }}" > ~/deploy_key
+          chmod 600 ~/deploy_key
           ssh-add ~/deploy_key
     - uses: actions/checkout@v2
     - name: Set up Python
