@@ -39,8 +39,12 @@ def commit_artifacts(repo_dir: pathlib.Path, repo: git.Repo) -> None:
 
     (repo_dir / ".gitattributes").write_text(GIT_ATTRIBUTES_CONTENT)
     repo.index.add(".gitattributes")
-    repo.index.add("**/*.tar.gz")
-    repo.index.add("**/*.whl")
+
+    # NOTE: As GitPython doesn't support git-lfs,
+    # use low-level API to track the following files as lfs objects
+    repo.git.add("**/*.tar.gz")
+    repo.git.add("**/*.whl")
+
     # NOTE: Use parent_commits=[] to create an orphan commit,
     # then update current head to refer to the commit by head=True
     repo.index.commit(
