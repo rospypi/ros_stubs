@@ -16,7 +16,7 @@ _logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
-class _ArtifactsInfo:
+class ArtifactInfo:
     name: str
     previous_version: Optional[Version]
     generated_version: Version
@@ -64,7 +64,7 @@ def _build_package(
 def _build_all_in_one_package(
     artifacts_dir: pathlib.Path,
     built_dirs: List[pathlib.Path],
-) -> _ArtifactsInfo:
+) -> ArtifactInfo:
     package_name = "ros-stubs-all"
     desired_version = DateVersion(datetime.date.today())
     latest_version = find_latest_version(artifacts_dir, package_name, DateVersion)
@@ -80,14 +80,14 @@ def _build_all_in_one_package(
         previous_version=latest_version,
     )
 
-    return _ArtifactsInfo(package_name, latest_version, ret)
+    return ArtifactInfo(package_name, latest_version, ret)
 
 
 def _build_single_stub_package(
     artifacts_dir: pathlib.Path,
     package: StubPackage,
     build_dir: pathlib.Path,
-) -> _ArtifactsInfo:
+) -> ArtifactInfo:
     package_name = build_dir.name
     desired_version = NumericVersion(package.major_version, package.minor_version, 0)
 
@@ -115,13 +115,13 @@ def _build_single_stub_package(
         previous_version=previous_version,
         install_requires=[f"{package.target_package}{package.supported_versions}"],
     )
-    return _ArtifactsInfo(package_name, latest_version, ret)
+    return ArtifactInfo(package_name, latest_version, ret)
 
 
-def build(context: BuilderContext) -> List[_ArtifactsInfo]:
+def build(context: BuilderContext) -> List[ArtifactInfo]:
     packages = find_stub_packages(context.source_dir)
     built_dirs: List[Tuple[pathlib.Path, StubPackage]] = []
-    artifacts_info: List[_ArtifactsInfo] = []
+    artifacts_info: List[ArtifactInfo] = []
 
     for p in packages:
         outdir = p.build(context)
