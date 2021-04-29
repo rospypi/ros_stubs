@@ -27,7 +27,7 @@ jobs:
           # in actions/checkout@v2, git>=2.18 is required
           add-apt-repository ppa:git-core/ppa
           apt-get update -y
-          apt-get install -y --no-install-recommends git git-lfs
+          apt-get install -y --no-install-recommends git git-lfs openssh-client
 
           ssh-agent -a ${{ env.SSH_AUTH_SOCK}} > /dev/null
           ssh-add - <<< "${{ secrets.ROSPYPI_SIMPLE_DEPLOY_KEY }}"
