@@ -8,7 +8,7 @@ on:
 env:
   DEBIAN_FRONTEND: noninteractive
   MASTER_BRANCH: refs/heads/master
-  PIPENV_VERSION: 2020.11.15
+  VERSION_PIPENV: 2020.11.15
 jobs:
   build-stubs:
     name: Build ros_stubs
@@ -34,7 +34,7 @@ jobs:
             python3-pip \
             python3.8 \
             python3.8-dev
-          pip3 install pipenv==${{ env.PIPENV_VERSION }}
+          pip3 install pipenv==${{ env.VERSION_PIPENV }}
     - name: Prepare build env
       run: |
           cd assets/
