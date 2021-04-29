@@ -1,0 +1,13 @@
+[tool.pysen]
+version = "0.9"
+
+[tool.pysen.lint]
+enable_black = true
+enable_flake8 = true
+enable_isort = true
+enable_mypy = true
+mypy_preset = "strict"
+py_version = "py38"
+isort_known_first_party = ["buildtool"]
+[[tool.pysen.lint.mypy_targets]]
+  paths = ["."]

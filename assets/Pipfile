@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[[source]]
+name = "rospypi"
+url = "https://rospypi.github.io/simple"
+verify_ssl = true
+
+[dev-packages]
+pysen = {version = ">=0.9.0,<0.10.0", extras = ["lint"]}
+
+[packages]
+buildtool = {path = "../buildtool/", editable = true}
+genmsg = {version = "==0.5.12", index = "rospypi"}
+genpy = {version = "==0.6.14", index = "rospypi"}
+
+[requires]
+python_version = "3.8"

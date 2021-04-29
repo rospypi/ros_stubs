@@ -1,0 +1,13 @@
+*.swp
+
+*.egg-info/
+*.py[cod]
+.cache
+.mypy_cache/
+.tox/
+__pycache__/
+dist/
+pip-wheel-metadata/
+
+build/
+artifacts/
