@@ -45,10 +45,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+          cd assets/
           pipenv run python publish_artifacts.py
     - name: Build artifacts
       if: github.ref != env.MASTER_BRANCH
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+          cd assets/
           pipenv run python publish_artifacts.py --no-push
