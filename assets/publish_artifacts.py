@@ -36,7 +36,6 @@ def has_new_artifacts(artifacts: List[ArtifactInfo], repo: git.Repo) -> bool:
 
 def commit_artifacts(repo_dir: pathlib.Path, repo: git.Repo) -> None:
     repo.head.reset(index=True, working_tree=True)
-    repo.index.remove("*", working_tree=True)
 
     (repo_dir / ".gitattributes").write_text(GIT_ATTRIBUTES_CONTENT)
     repo.index.add(".gitattributes")
