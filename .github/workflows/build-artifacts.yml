@@ -1,0 +1,53 @@
+name: Build artifacts
+on:
+  push:
+    branches:
+      - master
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+  MASTER_BRANCH: refs/heads/master
+  PIPENV_VERSION: 2020.11.15
+jobs:
+  build-stubs:
+    name: Build ros_stubs
+    runs-on: ubuntu-latest
+    container:
+      image: ros:melodic-ros-core
+    steps:
+    - name: Set up apt
+      run: |
+          apt-get update -y
+          apt-get install -y --no-install-recommends software-properties-common
+    - name: Set up git
+      run: |
+          # In order to create a local git repository
+          # in actions/checkout@v2, git>=2.18 is required
+          add-apt-repository ppa:git-core/ppa
+          apt-get update -y
+          apt-get install -y --no-install-recommends git git-lfs
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      run: |
+          apt-get install -y --no-install-recommends \
+            python3-pip \
+            python3.8 \
+            python3.8-dev
+          pip3 install tox==${{ env.PIPENV_VERSION }}
+    - name: Prepare build env
+      run: |
+          cd assets/
+          pipenv sync
+          git lfs install
+    - name: Build and push artifacts
+      if: github.ref == env.MASTER_BRANCH
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+          pipenv run python publish_artifacts.py
+    - name: Build artifacts
+      if: github.ref != env.MASTER_BRANCH
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+          pipenv run python publish_artifacts.py --no-push

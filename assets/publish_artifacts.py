@@ -11,6 +11,10 @@ from buildtool.builder import ArtifactInfo
 DEFAULT_ROSPYPI_SIMPLE_URL = "git@github.com:rospypi/simple.git"
 DEFAULT_ARTIFACT_BRANCH = "any_stubs"
 
+GIT_ATTRIBUTES_CONTENT = """*.whl filter=lfs diff=lfs merge=lfs -text
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
+"""
+
 
 def clone_rospypi_simple(remote_url: str, dst: pathlib.Path, branch: str) -> git.Repo:
     repo = git.Repo.clone_from(remote_url, dst, branch=branch)
@@ -30,7 +34,14 @@ def has_new_artifacts(artifacts: List[ArtifactInfo], repo: git.Repo) -> bool:
     return False
 
 
-def commit_artifacts(repo: git.Repo) -> None:
+def commit_artifacts(repo_dir: pathlib.Path, repo: git.Repo) -> None:
+    new_head = git.Head(repo, repo.head.name)
+    repo.head.reference = new_head
+    repo.head.reset(index=True, working_tree=True)
+    repo.index.remove("*", working_tree=True)
+
+    (repo_dir / ".gitattributes").write_text(GIT_ATTRIBUTES_CONTENT)
+    repo.index.add(".gitattributes")
     repo.index.add("**/*.tar.gz")
     repo.index.add("**/*.whl")
     repo.index.commit(
@@ -57,6 +68,11 @@ def main() -> None:
         help="Target branch to push artifacts",
         default=DEFAULT_ARTIFACT_BRANCH,
     )
+    parser.add_argument(
+        "--no-push",
+        help="Do not push artifacts to remote repository",
+        action="store_true",
+    )
     args = parser.parse_args()
 
     build_ros_stubs.setup_logger()
@@ -75,9 +91,10 @@ def main() -> None:
             sys.exit(0)
 
         print("Creating commit")
-        commit_artifacts(repo)
-        print("Push to remote")
-        push_artifacts(repo)
+        commit_artifacts(rospypi_dir, repo)
+        if not args.no_push:
+            print("Push to remote")
+            push_artifacts(repo)
 
         print("Done")
 

@@ -1,0 +1,30 @@
+name: Python tests
+on: [push]
+env:
+  DEBIAN_FRONTEND: noninteractive
+  TOX_VERSION: 3.23.0
+jobs:
+  py37:
+    name: py38
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.8
+    steps:
+    - name: Set up apt
+      run: |
+          apt-get update -y
+          apt-get install -y --no-install-recommends software-properties-common
+    - name: Set up git
+      run: |
+          # In order to create a local git repository
+          # in actions/checkout@v2, git>=2.18 is required
+          add-apt-repository ppa:git-core/ppa
+          apt-get update -y
+          apt-get install -y --no-install-recommends git
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      run: |
+          pip3 install tox==${{ env.TOX_VERSION }}
+    - name: Run pytest
+      run: |
+          tox
