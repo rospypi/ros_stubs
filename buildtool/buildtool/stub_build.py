@@ -51,7 +51,7 @@ class StubBuild(BuildAction):
         include_paths = self.get_formatted_include_paths(package_dir, context)
 
         self._stubgen_impl(target_package, source_files, str(out_dir), include_paths)
-        genpyi.cli.run_module(source_dir, str(out_dir), "genmsg")
+        genpyi.cli.run_module(str(source_dir), str(out_dir), "genmsg")
 
 
 class MessageStubBuild(StubBuild):
