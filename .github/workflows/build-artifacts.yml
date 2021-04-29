@@ -1,5 +1,9 @@
 name: Build artifacts
-on: [push]
+on:
+  push:
+  pull_request:
+    branches:
+      - master
 
 env:
   DEBIAN_FRONTEND: noninteractive
