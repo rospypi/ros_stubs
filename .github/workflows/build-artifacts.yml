@@ -9,6 +9,7 @@ env:
   DEBIAN_FRONTEND: noninteractive
   MASTER_BRANCH: refs/heads/master
   VERSION_PIPENV: 2020.11.15
+  SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 jobs:
   build-stubs:
     name: Build ros_stubs
@@ -20,13 +21,16 @@ jobs:
       run: |
           apt-get update -y
           apt-get install -y --no-install-recommends software-properties-common
-    - name: Set up git
+    - name: Set up git and ssh
       run: |
           # In order to create a local git repository
           # in actions/checkout@v2, git>=2.18 is required
           add-apt-repository ppa:git-core/ppa
           apt-get update -y
           apt-get install -y --no-install-recommends git git-lfs
+
+          ssh-agent -a ${{ env.SSH_AUTH_SOCK}} > /dev/null
+          ssh-add - <<< "${{ secrets.ROSPYPI_SIMPLE_DEPLOY_KEY }}"
     - uses: actions/checkout@v2
     - name: Set up Python
       run: |
@@ -46,8 +50,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
           cd assets/
-          pipenv run python publish_artifacts.py \
-            --simple-url https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/rospypi/simple.git
+          pipenv run python publish_artifacts.py
     - name: Build artifacts
       if: github.ref != env.MASTER_BRANCH
       env:
