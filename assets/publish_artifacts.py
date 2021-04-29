@@ -35,8 +35,6 @@ def has_new_artifacts(artifacts: List[ArtifactInfo], repo: git.Repo) -> bool:
 
 
 def commit_artifacts(repo_dir: pathlib.Path, repo: git.Repo) -> None:
-    new_head = git.Head(repo, repo.head.name)
-    repo.head.reference = new_head
     repo.head.reset(index=True, working_tree=True)
     repo.index.remove("*", working_tree=True)
 
@@ -44,9 +42,13 @@ def commit_artifacts(repo_dir: pathlib.Path, repo: git.Repo) -> None:
     repo.index.add(".gitattributes")
     repo.index.add("**/*.tar.gz")
     repo.index.add("**/*.whl")
+    # NOTE: Use parent_commits=[] to create an orphan commit,
+    # then update current head to refer to the commit by head=True
     repo.index.commit(
         "Release ros_stubs: {}",
         author=git.Actor("ros_stubs", "ros_stubs@noreply.github.com"),
+        head=True,
+        parent_commits=[],
     )
 
     assert not repo.is_dirty()
