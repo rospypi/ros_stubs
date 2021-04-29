@@ -34,7 +34,7 @@ jobs:
             python3-pip \
             python3.8 \
             python3.8-dev
-          pip3 install tox==${{ env.PIPENV_VERSION }}
+          pip3 install pipenv==${{ env.PIPENV_VERSION }}
     - name: Prepare build env
       run: |
           cd assets/
