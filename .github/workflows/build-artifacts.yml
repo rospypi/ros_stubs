@@ -1,8 +1,5 @@
 name: Build artifacts
-on:
-  push:
-    branches:
-      - master
+on: [push]
 
 env:
   DEBIAN_FRONTEND: noninteractive
