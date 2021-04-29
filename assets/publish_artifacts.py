@@ -8,7 +8,7 @@ import build_ros_stubs
 import git
 from buildtool.builder import ArtifactInfo
 
-DEFAULT_ROSPYPI_SIMPLE_URL = "git@github.com:rospypi/simple.git"
+DEFAULT_ROSPYPI_SIMPLE_URL = "https://github.com/rospypi/simple.git"
 DEFAULT_ARTIFACT_BRANCH = "any_stubs"
 
 GIT_ATTRIBUTES_CONTENT = """*.whl filter=lfs diff=lfs merge=lfs -text
