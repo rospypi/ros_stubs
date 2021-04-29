@@ -13,4 +13,5 @@ setup(
         "genpyi>=0.1.0,<0.2.0",
         "pydantic>=1.8.0,<2.0.0",
     ],
+    package_data={"buildtool": ["py.typed"]},
 )
