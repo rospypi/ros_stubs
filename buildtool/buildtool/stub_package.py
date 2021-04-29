@@ -57,7 +57,7 @@ class StubPackage(BaseModel):
         return dst
 
 
-def _load_stub_package(path: pathlib.Path) -> StubPackage:
+def load_stub_package(path: pathlib.Path) -> StubPackage:
     with path.open("r") as f:
         content = yaml.safe_load(f)
 
@@ -68,6 +68,6 @@ def find_stub_packages(base: pathlib.Path) -> List[StubPackage]:
     ret: List[StubPackage] = []
     for path in base.glob(f"**/{PackageFileName}"):
         _logger.info("Found: %s", path)
-        ret.append(_load_stub_package(path))
+        ret.append(load_stub_package(path))
 
     return ret
