@@ -158,7 +158,7 @@ def main() -> None:
         repo.head.reference = head
 
         commit_artifacts(repo)
-        if not args.push:
+        if args.push:
             print("* Force push to remote")
             push_artifacts(repo)
 
