@@ -10,6 +10,10 @@ SDIST_NAME_TEMPLATE = "{package_name}-{version}.tar.gz"
 SDIST_EXTENSION = ".tar.gz"
 
 
+def to_package_dir_name(name: str) -> str:
+    return name.replace("_", "-")
+
+
 def get_universal_wheel_name(package_name: str, version: str) -> str:
     return WHEEL_NAME_TEMPLATE.format(
         package_name=package_name.replace("-", "_"),
@@ -24,7 +28,7 @@ def get_universal_wheel_path(
 ) -> pathlib.Path:
     return (
         artifacts_dir
-        / package_name
+        / to_package_dir_name(package_name)
         / get_universal_wheel_name(package_name, version.version)
     )
 
@@ -41,7 +45,11 @@ def get_sdist_path(
     package_name: str,
     version: Version,
 ) -> pathlib.Path:
-    return artifacts_dir / package_name / get_sdist_name(package_name, version.version)
+    return (
+        artifacts_dir
+        / to_package_dir_name(package_name)
+        / get_sdist_name(package_name, version.version)
+    )
 
 
 def extract_version(sdist_path: str) -> str:
