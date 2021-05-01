@@ -70,6 +70,7 @@ jobs:
           pipenv run python publish_artifacts.py
   update-pages:
     name: Update gh_pages for rospypi/simple
+    needs: build-stubs
     runs-on: ubuntu-latest
     steps:
     - name: Set up Python
