@@ -10,8 +10,12 @@ SDIST_NAME_TEMPLATE = "{package_name}-{version}.tar.gz"
 SDIST_EXTENSION = ".tar.gz"
 
 
-def to_package_dir_name(name: str) -> str:
+def _to_package_dir_name(name: str) -> str:
     return name.replace("_", "-")
+
+
+def get_package_dir(artifacts_dir: pathlib.Path, package_name: str) -> pathlib.Path:
+    return artifacts_dir / _to_package_dir_name(package_name)
 
 
 def get_universal_wheel_name(package_name: str, version: str) -> str:
@@ -26,10 +30,8 @@ def get_universal_wheel_path(
     package_name: str,
     version: Version,
 ) -> pathlib.Path:
-    return (
-        artifacts_dir
-        / to_package_dir_name(package_name)
-        / get_universal_wheel_name(package_name, version.version)
+    return get_package_dir(artifacts_dir, package_name) / get_universal_wheel_name(
+        package_name, version.version
     )
 
 
@@ -45,10 +47,8 @@ def get_sdist_path(
     package_name: str,
     version: Version,
 ) -> pathlib.Path:
-    return (
-        artifacts_dir
-        / to_package_dir_name(package_name)
-        / get_sdist_name(package_name, version.version)
+    return get_package_dir(artifacts_dir, package_name) / get_sdist_name(
+        package_name, version.version
     )
 
 
@@ -75,7 +75,7 @@ def find_latest_version(
     package_name: str,
     version_class: Type[TVersion],
 ) -> Optional[TVersion]:
-    package_dir = artifacts_dir / package_name
+    package_dir = get_package_dir(artifacts_dir, package_name)
     if not package_dir.exists():
         return None
 
