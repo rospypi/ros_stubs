@@ -36,21 +36,6 @@ def load_local_repository(path: pathlib.Path, branch: str) -> Iterator[git.Repo]
     yield repo
 
 
-def load_repository(
-    args: argparse.Namespace, ref_branch: str
-) -> ContextManager[git.Repo]:
-    if args.url is not None and args.repository is not None:
-        raise argparse.ArgumentError("cannot set both --url and --repository options")
-
-    if args.url is None and args.repository is None:
-        args.url = DEFAULT_ROSPYPI_SIMPLE_URL
-
-    if args.url is not None:
-        return load_remote_repository(args.url, ref_branch)
-    else:
-        return load_local_repository(args.repository, ref_branch)
-
-
 def build_artifacts(rospypi: pathlib.Path) -> List[ArtifactInfo]:
     build_ros_stubs.setup_logger()
     return build_ros_stubs.run(None, None, out=rospypi)
@@ -139,7 +124,18 @@ def main() -> None:
     build_ros_stubs.setup_logger()
     ref_branch = args.ref_branch or args.branch
 
-    with load_repository(args, ref_branch) as repo:  # type: git.Repo
+    if args.url is not None and args.repository is not None:
+        parser.error("cannot set both --url and --repository options")
+
+    context: ContextManager[git.Repo]
+    if args.repository is not None:
+        context = load_local_repository(args.repository, ref_branch)
+    else:
+        context = load_remote_repository(
+            args.url or DEFAULT_ROSPYPI_SIMPLE_URL, ref_branch
+        )
+
+    with context as repo:  # type: git.Repo
         print("* Building artifacts")
         artifacts = build_artifacts(pathlib.Path(repo.working_dir))
 
