@@ -4,14 +4,14 @@ import pathlib
 import sys
 import tempfile
 from datetime import datetime
-from typing import Iterator, List
+from typing import ContextManager, Iterator, List
 
 import build_ros_stubs
 import git
 from buildtool.builder import ArtifactInfo
 
 DEFAULT_ROSPYPI_SIMPLE_URL = "https://github.com/rospypi/simple.git"
-DEFAULT_ARTIFACT_BRANCH = "any_stubs"
+DEFAULT_ARTIFACT_BRANCH = "stubs"
 
 GIT_ATTRIBUTES_CONTENT = """*.whl filter=lfs diff=lfs merge=lfs -text
 *.tar.gz filter=lfs diff=lfs merge=lfs -text
@@ -22,22 +22,23 @@ GIT_ATTRIBUTES_CONTENT = """*.whl filter=lfs diff=lfs merge=lfs -text
 def load_remote_repository(remote_url: str, branch: str) -> Iterator[git.Repo]:
     with tempfile.TemporaryDirectory() as tempdir:
         print("* Cloning rospypi repository")
-        repo = git.Repo.clone_from(remote_url, tempdir, branch=branch)
+        repo = git.Repo.clone_from(remote_url, tempdir, branch=branch, depth=1)
         yield repo
 
 
 @contextlib.contextmanager
 def load_local_repository(path: pathlib.Path, branch: str) -> Iterator[git.Repo]:
     print("* Loading local rospypi repository")
-    repo = git.Repo(path, search_parent_directory=True)
+    repo = git.Repo(path, search_parent_directories=True)
     head = repo.heads[branch]
     repo.head.reference = head
     repo.head.reset(index=True, working_tree=True)
     yield repo
 
 
-@contextlib.contextmanager
-def load_repository(args: argparse.Namespace, ref_branch: str) -> Iterator[git.Repo]:
+def load_repository(
+    args: argparse.Namespace, ref_branch: str
+) -> ContextManager[git.Repo]:
     if args.url is not None and args.repository is not None:
         raise argparse.ArgumentError("cannot set both --url and --repository options")
 
@@ -45,9 +46,9 @@ def load_repository(args: argparse.Namespace, ref_branch: str) -> Iterator[git.R
         args.url = DEFAULT_ROSPYPI_SIMPLE_URL
 
     if args.url is not None:
-        yield load_remote_repository(args.url, ref_branch)
+        return load_remote_repository(args.url, ref_branch)
     else:
-        yield load_local_repository(args.repository, ref_branch)
+        return load_local_repository(args.repository, ref_branch)
 
 
 def build_artifacts(rospypi: pathlib.Path) -> List[ArtifactInfo]:
@@ -67,7 +68,7 @@ def reset_hard_branch(repo: git.Repo, new_branch: str) -> git.Head:
     try:
         head = repo.heads[new_branch]
         print("Head: {branch} exists in local repository -> Removed")
-        git.Head.delete(repo, head)
+        git.Head.delete(repo, head, force=True)
     except IndexError:
         pass
 
@@ -129,8 +130,8 @@ def main() -> None:
         default=None,
     )
     parser.add_argument(
-        "--no-push",
-        help="Do not push artifacts to remote repository",
+        "--push",
+        help="Push artifacts to remote repository",
         action="store_true",
     )
     args = parser.parse_args()
@@ -157,7 +158,7 @@ def main() -> None:
         repo.head.reference = head
 
         commit_artifacts(repo)
-        if not args.no_push:
+        if not args.push:
             print("* Force push to remote")
             push_artifacts(repo)
 
