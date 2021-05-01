@@ -12,6 +12,7 @@ env:
   DEBIAN_FRONTEND: noninteractive
   MASTER_BRANCH: refs/heads/master
   VERSION_PIPENV: 2020.11.15
+  INDEX_BUILDER_COMMIT: 69d2b7886ba7bec56829edbde1926d2481cbeb8f
 jobs:
   build-stubs:
     name: Build ros_stubs
@@ -67,3 +68,42 @@ jobs:
       run: |
           cd assets/
           pipenv run python publish_artifacts.py
+  update-pages:
+    name: Update gh_pages for rospypi/simple
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Prepare build env
+      run: |
+          python3 -m pip install --upgrade pip
+          pip3 install git+git://github.com/rospypi/index_builder.git@${{ env.INDEX_BUILDER_COMMIT }}
+    - name: Build index html
+      run: |
+          git clone https://github.com/rospypi/simple.git simple
+          mkdir index
+          python3 -m index_builder repo --path simple index
+          python3 -m index_builder repo --prefix pre --path simple index/_pre
+    - name: Push gh-pages
+      if: startsWith(github.ref, 'refs/tags/') || github.ref == env.MASTER_BRANCH
+      env:
+        GIT_SSH_COMMAND: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
+          ssh-agent -a ${SSH_AUTH_SOCK} > /dev/null
+          echo "${{ secrets.ROSPYPI_SIMPLE_DEPLOY_KEY }}" > ~/deploy_key
+          chmod 600 ~/deploy_key
+          ssh-add ~/deploy_key
+
+          cd index
+          git init
+          git config user.name "ros_stubs"
+          git config user.email "ros_stubs@noreply.github.com"
+          git remote add origin git@github.com:rospypi/simple.git
+          git checkout -b gh-pages
+          touch .nojekyll
+          git add .
+          git commit -am "Release $(date)"
+          git push -f origin gh-pages
