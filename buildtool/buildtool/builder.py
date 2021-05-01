@@ -5,7 +5,12 @@ import pathlib
 import shutil
 from typing import List, Optional, Tuple
 
-from .artifacts import find_latest_version, get_next_available_version, get_sdist_path
+from .artifacts import (
+    find_latest_version,
+    get_next_available_version,
+    get_package_dir,
+    get_sdist_path,
+)
 from .context import BuilderContext
 from .package_hash import get_package_hashes, has_same_package_hashes
 from .packaging import create_artifacts
@@ -53,7 +58,7 @@ def _build_package(
             package_name,
             release_version,
         )
-        package_dir = artifacts_dir / package_name
+        package_dir = get_package_dir(artifacts_dir, package_name)
         package_dir.mkdir(parents=True, exist_ok=True)
         shutil.copy2(artifacts.sdist_path, package_dir)
         shutil.copy2(artifacts.bdist_path, package_dir)
