@@ -52,7 +52,7 @@ def has_new_artifacts(artifacts: List[ArtifactInfo], repo: git.Repo) -> bool:
 def reset_hard_branch(repo: git.Repo, new_branch: str) -> git.Head:
     try:
         head = repo.heads[new_branch]
-        print("Head: {branch} exists in local repository -> Removed")
+        print(f"Head: {new_branch} exists in local repository -> Removed")
         git.Head.delete(repo, head, force=True)
     except IndexError:
         pass
