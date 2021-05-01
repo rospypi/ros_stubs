@@ -52,9 +52,11 @@ jobs:
           ssh-add ~/deploy_key
 
           cd assets/
-          pipenv run python publish_artifacts.py --simple-url git@github.com:rospypi/simple.git
+          pipenv run python publish_artifacts.py \
+            --url git@github.com:rospypi/simple.git \
+            --branch stubs_pre --ref-branch stubs --push
     - name: Build artifacts
       if: github.ref != env.MASTER_BRANCH
       run: |
           cd assets/
-          pipenv run python publish_artifacts.py --no-push
+          pipenv run python publish_artifacts.py
