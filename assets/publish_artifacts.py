@@ -84,8 +84,8 @@ def commit_artifacts(repo: git.Repo) -> None:
     assert not repo.is_dirty()
 
 
-def push_artifacts(repo: git.Repo) -> None:
-    repo.remote().push(force=True)
+def push_artifacts(repo: git.Repo, head: git.Head) -> None:
+    repo.remote().push(head, force=True)
 
 
 def main() -> None:
@@ -156,7 +156,7 @@ def main() -> None:
         commit_artifacts(repo)
         if args.push:
             print("* Force push to remote")
-            push_artifacts(repo)
+            push_artifacts(repo, head)
 
         print("=> Done")
 
