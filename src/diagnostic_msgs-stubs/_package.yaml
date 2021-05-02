@@ -6,6 +6,8 @@ builds:
     source_dir: "{ROS_SHARE_DIR}/diagnostic_msgs/msg"
     out_dir: msg/
     include_paths: &include_paths
+      diagnostic_msgs:
+        - "{ROS_SHARE_DIR}/diagnostic_msgs/msg"
       std_msgs:
         - "{ROS_SHARE_DIR}/std_msgs/msg"
   - type: srv_stub_gen
