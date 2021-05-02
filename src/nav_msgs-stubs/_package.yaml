@@ -1,0 +1,21 @@
+major_version: 0
+minor_version: 1
+supported_versions: ">=1.12,<1.14"
+builds:
+  - type: msg_stub_gen
+    source_dir: "{ROS_SHARE_DIR}/nav_msgs/msg"
+    out_dir: msg/
+    include_paths: &include_paths
+      actionlib_msgs:
+        - "{ROS_SHARE_DIR}/actionlib_msgs/msg"
+      geometry_msgs:
+        - "{ROS_SHARE_DIR}/geometry_msgs/msg"
+      nav_msgs:
+        - "{ROS_SHARE_DIR}/nav_msgs/msg"
+      std_msgs:
+        - "{ROS_SHARE_DIR}/std_msgs/msg"
+  - type: srv_stub_gen
+    source_dir: "{ROS_SHARE_DIR}/nav_msgs/srv"
+    out_dir: srv/
+    include_paths:
+      <<: *include_paths
