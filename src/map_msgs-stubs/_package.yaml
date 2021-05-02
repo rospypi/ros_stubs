@@ -1,0 +1,19 @@
+major_version: 0
+minor_version: 1
+supported_versions: ">=1.13,<1.15"
+builds:
+  - type: msg_stub_gen
+    source_dir: "{ROS_SHARE_DIR}/map_msgs/msg"
+    out_dir: msg/
+    include_paths: &include_paths
+      nav_msgs:
+        - "{ROS_SHARE_DIR}/nav_msgs/msg"
+      sensor_msgs:
+        - "{ROS_SHARE_DIR}/sensor_msgs/msg"
+      std_msgs:
+        - "{ROS_SHARE_DIR}/std_msgs/msg"
+  - type: srv_stub_gen
+    source_dir: "{ROS_SHARE_DIR}/map_msgs/srv"
+    out_dir: srv/
+    include_paths:
+      <<: *include_paths
