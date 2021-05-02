@@ -1,0 +1,12 @@
+major_version: 0
+minor_version: 1
+supported_versions: ">=1.12,<1.14"
+builds:
+  - type: msg_stub_gen
+    source_dir: "{ROS_SHARE_DIR}/geometry_msgs/msg"
+    out_dir: msg/
+    include_paths:
+      geometry_msgs:
+        - "{ROS_SHARE_DIR}/geometry_msgs/msg"
+      std_msgs:
+        - "{ROS_SHARE_DIR}/std_msgs/msg"
