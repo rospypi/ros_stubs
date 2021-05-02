@@ -6,5 +6,7 @@ builds:
     source_dir: "{ROS_SHARE_DIR}/geometry_msgs/msg"
     out_dir: msg/
     include_paths:
+      geometry_msgs:
+        - "{ROS_SHARE_DIR}/geometry_msgs/msg"
       std_msgs:
         - "{ROS_SHARE_DIR}/std_msgs/msg"
