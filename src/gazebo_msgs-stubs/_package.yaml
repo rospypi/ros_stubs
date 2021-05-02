@@ -6,16 +6,16 @@ builds:
     source_dir: "{ROS_SHARE_DIR}/gazebo_msgs/msg"
     out_dir: msg/
     include_paths: &include_paths
-      std_msgs:
-        - "{ROS_SHARE_DIR}/std_msgs/msg"
       geometry_msgs:
         - "{ROS_SHARE_DIR}/geometry_msgs/msg"
-      trajectory_msgs:
-        - "{ROS_SHARE_DIR}/trajectory_msgs/msg"
       sensor_msgs:
         - "{ROS_SHARE_DIR}/sensor_msgs/msg"
+      std_msgs:
+        - "{ROS_SHARE_DIR}/std_msgs/msg"
       std_srvs:
         - "{ROS_SHARE_DIR}/std_srvs/srv"
+      trajectory_msgs:
+        - "{ROS_SHARE_DIR}/trajectory_msgs/msg"
   - type: srv_stub_gen
     source_dir: "{ROS_SHARE_DIR}/gazebo_msgs/srv"
     out_dir: srv/
