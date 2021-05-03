@@ -1,0 +1,250 @@
+# NOTE: This file was imported from https://github.com/rospypi/simple/blob/634b9e785f2c0f0bef36eee2ce0e56570270b466/packages.yaml
+# As rospypi/simple is too large to use as a submodule, sync packages.yaml manually for the moment.
+- name: PyKDL
+  path: PyKDL
+  native_build: py3
+- name: roslz4
+  path: roslz4
+  native_build: py3
+- name: cv_bridge
+  path: cv_bridge
+- name: tf2_ros
+  path: tf2_py/geometry2/tf2_ros
+- name: tf2_py
+  path: tf2_py
+  native_build: py3
+- name: rospy-all
+  path: rospy-all
+- name: rospy-builder
+  path: rospy-builder
+# ros-infrastructure
+- name: catkin_pkg
+  repository: ros-infrastructure/catkin_pkg
+  version: 0.4.13
+- name: rospkg
+  repository: ros-infrastructure/rospkg
+  version: 1.1.10
+# ros/ros
+- name: roslib
+  repository: ros/ros
+  version: 1.14.7
+  release_version: 1.14.7.post0
+  path: core/roslib
+  requires:
+    - catkin
+- name: rosunit
+  repository: ros/ros
+  version: 1.14.7
+  path: tools/rosunit
+- name: rosclean
+  repository: ros/ros
+  version: 1.14.7
+  path: tools/rosclean
+# ros/ros_comm
+- name: rospy
+  repository: ros/ros_comm
+  version: 1.15.7
+  path: clients/rospy
+  requires:
+    - roscpp
+    - rosgraph_msgs
+    - std_msgs
+- name: rosgraph
+  repository: ros/ros_comm
+  version: 1.15.7
+  path: tools/rosgraph
+- name: rosservice
+  repository: ros/ros_comm
+  version: 1.15.7
+  path: tools/rosservice
+- name: rosmsg
+  repository: ros/ros_comm
+  version: 1.15.7
+  path: tools/rosmsg
+- name: rosbag
+  repository: ros/ros_comm
+  version: 1.15.7
+  path: tools/rosbag
+  requires:
+    - "genpy<2000"
+    - gnupg
+    - pycryptodome
+    - pycryptodomex
+    - rospy
+- name: rosmaster
+  repository: ros/ros_comm
+  version: 1.15.7
+  path: tools/rosmaster
+  requires:
+    - defusedxml
+    - rosgraph
+- name: rostest
+  repository: ros/ros_comm
+  version: 1.15.7
+  path: tools/rostest
+- name: roslaunch
+  repository: ros/ros_comm
+  version: 1.15.7
+  path: tools/roslaunch
+- name: message_filters
+  repository: ros/ros_comm
+  version: 1.15.7
+  path: utilities/message_filters
+# tf
+- name: tf_conversions
+  repository: ros/geometry
+  version: 1.12.0
+  path: tf_conversions
+- name: tf2_geometry_msgs
+  repository: ros/geometry2
+  version: 0.6.5
+  release_version: 0.6.5.post0
+  path: tf2_geometry_msgs
+  unrequires:
+    - orocos_kdl
+  requires:
+    - PyKDL
+# ros/*
+- name: actionlib
+  repository: ros/actionlib
+  version: 1.12.0
+- name: genpy
+  repository: ros/genpy
+  version: 0.6.14
+- name: genmsg
+  repository: ros/genmsg
+  version: 0.5.12
+- name: catkin
+  repository: ros/catkin
+  version: 0.7.18
+# others
+- name: image_geometry
+  repository: ros-perception/vision_opencv
+  version: 1.13.0
+  path: image_geometry
+- name: ros_numpy
+  repository: eric-wieser/ros_numpy
+  version: 0.0.2
+# message
+- name: std_msgs
+  type: msg
+  repository: ros/std_msgs
+  version: 0.5.13
+  release_version: 0.5.13.post0  # genpy 0.6.14
+- name: roscpp
+  type: msg
+  repository: ros/ros_comm
+  version: 1.15.7
+  path: clients/roscpp
+  release_version: 1.15.7.post0  # genpy 0.6.14
+- name: std_srvs
+  type: msg
+  repository: ros/ros_comm_msgs
+  version: 1.11.3
+  release_version: 1.11.3.post1  # genpy 0.6.14
+  path: std_srvs
+- name: rosgraph_msgs
+  type: msg
+  repository: ros/ros_comm_msgs
+  version: 1.11.3
+  release_version: 1.11.3.post2  # genpy 0.6.14
+  path: rosgraph_msgs
+- name: geometry_msgs
+  type: msg
+  repository: ros/common_msgs
+  version: 1.13.0
+  release_version: 1.13.0.post2  # genpy 0.6.14
+  path: geometry_msgs
+- name: sensor_msgs
+  repository: ros/common_msgs
+  version: 1.13.0
+  release_version: 1.13.0.post2  # genpy 0.6.14
+  path: sensor_msgs
+  src: src
+- name: actionlib_msgs
+  type: msg
+  repository: ros/common_msgs
+  version: 1.13.0
+  release_version: 1.13.0.post2  # genpy 0.6.14
+  path: actionlib_msgs
+- name: shape_msgs
+  type: msg
+  repository: ros/common_msgs
+  version: 1.13.0
+  release_version: 1.13.0.post1  # genpy 0.6.14
+  path: shape_msgs
+- name: diagnostic_msgs
+  type: msg
+  repository: ros/common_msgs
+  version: 1.13.0
+  release_version: 1.13.0.post2  # genpy 0.6.14
+  path: diagnostic_msgs
+- name: nav_msgs
+  type: msg
+  repository: ros/common_msgs
+  version: 1.13.0
+  release_version: 1.13.0.post2  # genpy 0.6.14
+  path: nav_msgs
+- name: stereo_msgs
+  type: msg
+  repository: ros/common_msgs
+  version: 1.13.0
+  release_version: 1.13.0.post2  # genpy 0.6.14
+  path: stereo_msgs
+- name: trajectory_msgs
+  type: msg
+  repository: ros/common_msgs
+  version: 1.13.0
+  release_version: 1.13.0.post2  # genpy 0.6.14
+  path: trajectory_msgs
+- name: visualization_msgs
+  type: msg
+  repository: ros/common_msgs
+  version: 1.13.0
+  release_version: 1.13.0.post2  # genpy 0.6.14
+  path: visualization_msgs
+- name: tf
+  repository: ros/geometry
+  version: 1.12.1
+  release_version: 1.12.1.post2  # genpy 0.6.14
+  path: tf
+  src: src
+- name: tf2_msgs
+  type: msg
+  repository: ros/geometry2
+  version: 0.7.2
+  release_version: 0.7.2.post2  # genpy 0.6.14
+  path: tf2_msgs
+- name: tf2_sensor_msgs
+  repository: ros/geometry2
+  version: 0.7.2
+  release_version: 0.7.2
+  path: tf2_sensor_msgs
+  unrequires:
+    - orocos_kdl
+  requires:
+    - PyKDL
+- name: control_msgs
+  type: msg
+  repository: ros-controls/control_msgs
+  version: 1.5.2
+  release_version: 1.5.2.post2  # genpy 0.6.14
+  path: control_msgs
+- name: map_msgs
+  type: msg
+  repository: ros-planning/navigation_msgs
+  version: 1.14.0
+  release_version: 1.14.0.post2  # genpy 0.6.14
+  path: map_msgs
+- name: move_base_msgs
+  type: msg
+  repository: ros-planning/navigation_msgs
+  version: 1.14.0
+  release_version: 1.14.0.post2  # genpy 0.6.14
+  path: move_base_msgs
+- name: gazebo_msgs
+  type: msg
+  repository: ros-simulation/gazebo_ros_pkgs
+  version: 2.5.20
+  release_version: 2.5.20.post2  # genpy 0.6.14
+  path: gazebo_msgs
