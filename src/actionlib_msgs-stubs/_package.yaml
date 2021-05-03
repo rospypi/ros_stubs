@@ -3,8 +3,10 @@ minor_version: 1
 supported_versions: ">=1.12,<1.14"
 builds:
   - type: msg_stub_gen
-    source_dir: "{ROS_SHARE_DIR}/actionlib_msgs/msg"
+    source_dir: "{BUILD_ENV_DIR}/actionlib_msgs/msg"
     out_dir: msg/
     include_paths:
       std_msgs:
-        - "{ROS_SHARE_DIR}/std_msgs/msg"
+        - "{BUILD_ENV_DIR}/std_msgs/msg"
+      actionlib_msgs:
+        - "{BUILD_ENV_DIR}/actionlib_msgs/msg"
