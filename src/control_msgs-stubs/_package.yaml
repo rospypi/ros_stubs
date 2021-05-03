@@ -2,12 +2,17 @@ major_version: 0
 minor_version: 1
 supported_versions: ">=1.5,<1.6"
 builds:
+  - type: actionlib_build
+    source_dir: "{BUILD_ENV_DIR}/control_msgs/action"
+    message_dir: "{BUILD_ENV_DIR}/control_msgs/msg"
   - type: msg_stub_gen
     source_dir: "{BUILD_ENV_DIR}/control_msgs/msg"
     out_dir: msg/
     include_paths: &include_paths
       actionlib_msgs:
         - "{BUILD_ENV_DIR}/actionlib_msgs/msg"
+      control_msgs:
+        - "{BUILD_ENV_DIR}/control_msgs/msg"
       geometry_msgs:
         - "{BUILD_ENV_DIR}/geometry_msgs/msg"
       std_msgs:
