@@ -1,0 +1,10 @@
+major_version: 0
+minor_version: 1
+supported_versions: ">=1.11,<1.12"
+builds:
+  - type: msg_stub_gen
+    source_dir: "{BUILD_ENV_DIR}/rosgraph_msgs/msg"
+    out_dir: msg/
+    include_paths: &include_paths
+      std_msgs:
+        - "{BUILD_ENV_DIR}/std_msgs/msg"
