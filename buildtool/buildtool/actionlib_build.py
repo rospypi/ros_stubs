@@ -8,7 +8,7 @@ ACTIONLIB_EXTENSION = ".action"
 
 
 def parse_actionlib(contents: str) -> Tuple[str, str, str]:
-    parts: List[List[str]] = []
+    parts: List[List[str]] = [[]]
     for line in contents.splitlines():
         if line.startswith("---"):
             parts.append([])
