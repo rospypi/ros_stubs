@@ -1,0 +1,23 @@
+major_version: 0
+minor_version: 1
+supported_versions: ">=1.13,<1.15"
+builds:
+  - type: msg_stub_gen
+    source_dir: "{BUILD_ENV_DIR}/map_msgs/msg"
+    out_dir: msg/
+    include_paths: &include_paths
+      geometry_msgs:
+        - "{BUILD_ENV_DIR}/geometry_msgs/msg"
+      map_msgs:
+        - "{BUILD_ENV_DIR}/map_msgs/msg"
+      nav_msgs:
+        - "{BUILD_ENV_DIR}/nav_msgs/msg"
+      sensor_msgs:
+        - "{BUILD_ENV_DIR}/sensor_msgs/msg"
+      std_msgs:
+        - "{BUILD_ENV_DIR}/std_msgs/msg"
+  - type: srv_stub_gen
+    source_dir: "{BUILD_ENV_DIR}/map_msgs/srv"
+    out_dir: srv/
+    include_paths:
+      <<: *include_paths
