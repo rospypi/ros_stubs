@@ -13,5 +13,7 @@ builds:
         - "{BUILD_ENV_DIR}/actionlib_msgs/msg"
       geometry_msgs:
         - "{BUILD_ENV_DIR}/geometry_msgs/msg"
+      move_base_msgs:
+        - "{BUILD_ENV_DIR}/move_base_msgs/msg"
       std_msgs:
         - "{BUILD_ENV_DIR}/std_msgs/msg"
