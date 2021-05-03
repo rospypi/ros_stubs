@@ -6,12 +6,13 @@ from typing import Any, List, Union
 import yaml
 from pydantic import BaseModel, PrivateAttr
 
+from .actionlib_build import ActionlibBuild
 from .context import BuilderContext
 from .stub_build import MessageStubBuild, ServiceStubBuild
 
 _logger = logging.getLogger(__name__)
 
-BuildActions = Union[MessageStubBuild, ServiceStubBuild]
+BuildActions = Union[ActionlibBuild, MessageStubBuild, ServiceStubBuild]
 PackageFileName = "_package.yaml"
 StubPackageSuffix = "-stubs"
 
