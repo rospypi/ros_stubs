@@ -6,7 +6,9 @@ builds:
     source_dir: "{BUILD_ENV_DIR}/shape_msgs/msg"
     out_dir: msg/
     include_paths:
-      std_msgs:
-        - "{BUILD_ENV_DIR}/std_msgs/msg"
       geometry_msgs:
         - "{BUILD_ENV_DIR}/geometry_msgs/msg"
+      shape_msgs:
+        - "{BUILD_ENV_DIR}/shape_msgs/msg"
+      std_msgs:
+        - "{BUILD_ENV_DIR}/std_msgs/msg"
