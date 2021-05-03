@@ -2,6 +2,9 @@ major_version: 0
 minor_version: 1
 supported_versions: ">=1.12,<1.14"
 builds:
+  - type: actionlib_build
+    source_dir: "{BUILD_ENV_DIR}/nav_msgs/action"
+    message_dir: "{BUILD_ENV_DIR}/nav_msgs/msg"
   - type: msg_stub_gen
     source_dir: "{BUILD_ENV_DIR}/nav_msgs/msg"
     out_dir: msg/
