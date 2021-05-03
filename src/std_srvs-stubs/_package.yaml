@@ -1,0 +1,10 @@
+major_version: 0
+minor_version: 1
+supported_versions: ">=1.11,<1.12"
+builds:
+  - type: srv_stub_gen
+    source_dir: "{BUILD_ENV_DIR}/std_srvs/srv"
+    out_dir: srv/
+    include_paths:
+      std_msgs:
+        - "{BUILD_ENV_DIR}/std_msgs/msg"
