@@ -1,0 +1,25 @@
+major_version: 0
+minor_version: 1
+supported_versions: ">=2.5.19,<2.5.21"
+builds:
+  - type: msg_stub_gen
+    source_dir: "{BUILD_ENV_DIR}/gazebo_msgs/msg"
+    out_dir: msg/
+    include_paths: &include_paths
+      gazebo_msgs:
+        - "{BUILD_ENV_DIR}/gazebo_msgs/msg"
+      geometry_msgs:
+        - "{BUILD_ENV_DIR}/geometry_msgs/msg"
+      sensor_msgs:
+        - "{BUILD_ENV_DIR}/sensor_msgs/msg"
+      std_msgs:
+        - "{BUILD_ENV_DIR}/std_msgs/msg"
+      std_srvs:
+        - "{BUILD_ENV_DIR}/std_srvs/srv"
+      trajectory_msgs:
+        - "{BUILD_ENV_DIR}/trajectory_msgs/msg"
+  - type: srv_stub_gen
+    source_dir: "{BUILD_ENV_DIR}/gazebo_msgs/srv"
+    out_dir: srv/
+    include_paths:
+      <<: *include_paths
