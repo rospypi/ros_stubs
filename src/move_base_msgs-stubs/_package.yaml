@@ -1,0 +1,19 @@
+major_version: 0
+minor_version: 1
+supported_versions: ">=1.13,<1.15"
+builds:
+  - type: actionlib_build
+    source_dir: "{BUILD_ENV_DIR}/move_base_msgs/action"
+    message_dir: "{BUILD_ENV_DIR}/move_base_msgs/msg"
+  - type: msg_stub_gen
+    source_dir: "{BUILD_ENV_DIR}/move_base_msgs/msg"
+    out_dir: msg/
+    include_paths: &include_paths
+      actionlib_msgs:
+        - "{BUILD_ENV_DIR}/actionlib_msgs/msg"
+      geometry_msgs:
+        - "{BUILD_ENV_DIR}/geometry_msgs/msg"
+      move_base_msgs:
+        - "{BUILD_ENV_DIR}/move_base_msgs/msg"
+      std_msgs:
+        - "{BUILD_ENV_DIR}/std_msgs/msg"

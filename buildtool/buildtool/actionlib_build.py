@@ -67,6 +67,8 @@ class ActionlibBuild(BuildAction):
     ) -> None:
         source_dir = context.format_path(self.source_dir, package_dir)
         message_dir = context.format_path(self.message_dir, package_dir)
+        message_dir.mkdir(parents=True, exist_ok=True)
+
         action_files = list(source_dir.glob(f"*{ACTIONLIB_EXTENSION}"))
 
         for action in action_files:
