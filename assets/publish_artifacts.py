@@ -38,7 +38,7 @@ def load_local_repository(path: pathlib.Path, branch: str) -> Iterator[git.Repo]
 
 def build_artifacts(rospypi: pathlib.Path) -> List[ArtifactInfo]:
     build_ros_stubs.setup_logger()
-    return build_ros_stubs.run(None, None, out=rospypi)
+    return build_ros_stubs.run(None, None, None, out=rospypi)
 
 
 def has_new_artifacts(artifacts: List[ArtifactInfo], repo: git.Repo) -> bool:
