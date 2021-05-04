@@ -29,6 +29,7 @@ class StubFlake8Plugin(PluginBase):
                 "E305",  # E305 expected 2 blank lines after class or function definition, found 1  # NOQA
                 "E701",  # E701 multiple statements on one line (colon)
                 "E704",  # E704: multiple statements on one line (def)
+                "E741",  # E741: Do not use variables named 'I', 'O', or 'l'
             ]
         )
 
