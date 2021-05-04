@@ -39,7 +39,7 @@ $ stubgen -p [package] -o out  # generate stub files for a package
 $ stubgen -m [module] -o out  # generate the stub file for a module
 ```
 
-As stubgen generates draft stubs; generated files may contain wrong definitions, many `Any` types, unnecessary re-export, etc.
+As stubgen generates draft stubs; generated files may contain wrong definitions, many `Any` types, unnecessary re-exports, etc.
 As such, before make a PR, you need to either
 - Update generated stubs manually
 - Add a warning message as a note in the head of the file.
