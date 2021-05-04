@@ -16,6 +16,7 @@ from .client import on_shutdown as on_shutdown  # NOQA
 from .client import search_param as search_param  # NOQA
 from .client import set_param as set_param  # NOQA
 from .client import spin as spin  # NOQA
+from .client import wait_for_message as wait_for_message  # NOQA
 from .core import get_node_uri as get_node_uri  # NOQA
 from .core import get_ros_root as get_ros_root  # NOQA
 from .core import is_shutdown as is_shutdown  # NOQA
