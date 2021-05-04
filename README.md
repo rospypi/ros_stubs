@@ -41,8 +41,8 @@ $ stubgen -m [module] -o out  # generate the stub file for a module
 
 As stubgen generates draft stubs; generated files may contain wrong definitions, many `Any` types, unnecessary re-exports, etc.
 As such, before make a PR, you need to either
-- Update generated stubs manually
-- Add a warning message as a note in the head of the file.
+- Update generated stub files manually
+- Add a warning message as a note in the head of each stub file
 
 You will also need to fix stub files to pass the lint CI.
 But you can temporarily add them into the ignore list of lint targets only when you choose the latter option.
