@@ -12,7 +12,7 @@ class MsgNotFound(Exception):
         message: str,
         base_type: Optional[str] = ...,
         package: Optional[str] = ...,
-        search_path: Optional[Dict[str, str]] = ...,
+        search_path: Optional[Dict[str, List[str]]] = ...,
     ) -> None: ...
 
 class MsgContext:
@@ -30,14 +30,16 @@ class MsgContext:
 
 # functions for msg
 def get_msg_file(
-    package: str, base_type: str, search_path: Dict[str, str], ext: str = ...
+    package: str, base_type: str, search_path: Dict[str, List[str]], ext: str = ...
 ) -> str: ...
-def get_srv_file(package: str, base_type: str, search_path: Dict[str, str]) -> str: ...
+def get_srv_file(
+    package: str, base_type: str, search_path: Dict[str, List[str]]
+) -> str: ...
 def load_msg_by_type(
-    msg_context: MsgContext, msg_type: str, search_path: Dict[str, str]
+    msg_context: MsgContext, msg_type: str, search_path: Dict[str, List[str]]
 ) -> MsgSpec: ...
 def load_srv_by_type(
-    msg_context: MsgContext, srv_type: str, search_path: Dict[str, str]
+    msg_context: MsgContext, srv_type: str, search_path: Dict[str, List[str]]
 ) -> MsgSpec: ...
 def convert_constant_value(field_type: str, val: Any) -> Any: ...
 def load_msg_from_string(
@@ -47,10 +49,10 @@ def load_msg_from_file(
     msg_context: MsgContext, file_path: str, full_name: str
 ) -> MsgSpec: ...
 def load_msg_depends(
-    msg_context: MsgContext, spec: MsgSpec, search_path: Dict[str, str]
+    msg_context: MsgContext, spec: MsgSpec, search_path: Dict[str, List[str]]
 ) -> List[str]: ...
 def load_depends(
-    msg_context: MsgContext, spec: MsgSpec, msg_search_path: Dict[str, str]
+    msg_context: MsgContext, spec: MsgSpec, msg_search_path: Dict[str, List[str]]
 ) -> List[str]: ...
 
 # functions for srv
