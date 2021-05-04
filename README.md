@@ -30,6 +30,23 @@ If you find this repository doesn't have the stub package you want to contribute
 To create a new stub package, add a directory ending with name ending with `-stubs` under `src` directory.
 Also, please add `_package.yaml` in the directory to define the stub information.
 
+### Tips: Generate stub files automatically using stubgen
+
+You can automatically generate the stub file for either a package or a module using [`stubgen`](https://mypy.readthedocs.io/en/stable/stubgen.html).
+```sh
+$ pip install mypy  # make sure that mypy is installed
+$ stubgen -p [package] -o out  # generate stub files for a package
+$ stubgen -m [module] -o out  # generate the stub file for a module
+```
+
+As stubgen generates draft stubs; generated files may contain wrong definitions, many `Any` types, unnecessary re-exports, etc.
+As such, before make a PR, you need to either
+- Update generated stub files manually
+- Add a warning message as a note in the head of each stub file
+
+You will also need to fix stub files to pass the lint CI.
+But you can temporarily add them into the ignore list of lint targets only when you choose the latter option.
+
 ### Testing
 
 Install `tox` and run `tox` command in the root of this repository.
