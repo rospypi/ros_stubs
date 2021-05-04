@@ -1,0 +1,6 @@
+from typing import Any
+
+class ParameterInvalid(Exception):
+    def __init__(self, message: Any) -> None: ...
+
+def non_empty(param_name: Any): ...

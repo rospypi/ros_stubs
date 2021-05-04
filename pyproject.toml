@@ -7,6 +7,9 @@ enable_isort = true
 py_version = "py38"
 [tool.pysen.lint.source]
     includes = ["src/"]
+    excludes = [
+        "src/rospy-stubs/impl",
+    ]
 
 [tool.pysen.plugin.flake8_pyi]
 script = "assets/pysen_plugins/stub_flake8.py"
