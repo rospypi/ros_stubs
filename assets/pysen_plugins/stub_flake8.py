@@ -24,7 +24,10 @@ class StubFlake8Plugin(PluginBase):
         assert stub_flake8_setting.ignore is not None
         stub_flake8_setting.ignore.extend(
             [
+                "E301",  # E301 expected 1 blank line, found 0
                 "E302",  # E302: expected 2 blank lines
+                "E305",  # E305 expected 2 blank lines after class or function definition, found 1  # NOQA
+                "E701",  # E701 multiple statements on one line (colon)
                 "E704",  # E704: multiple statements on one line (def)
             ]
         )

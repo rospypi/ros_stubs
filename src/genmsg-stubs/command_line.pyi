@@ -1,0 +1,3 @@
+from typing import Dict, Iterable, List
+
+def includepath_to_dict(includepath: Iterable[str]) -> Dict[str, List[str]]: ...
