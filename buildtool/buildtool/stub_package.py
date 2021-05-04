@@ -1,7 +1,7 @@
 import logging
 import pathlib
 import shutil
-from typing import Any, List, Union
+from typing import Any, List, Optional, Union
 
 import yaml
 from pydantic import BaseModel, PrivateAttr
@@ -22,7 +22,7 @@ class StubPackage(BaseModel):
     minor_version: int
 
     supported_versions: str
-    builds: List[BuildActions]
+    builds: Optional[List[BuildActions]]
 
     _package_dir: pathlib.Path = PrivateAttr(default=pathlib.Path())
     _package_name: str = PrivateAttr()
@@ -50,8 +50,9 @@ class StubPackage(BaseModel):
         shutil.copytree(self._package_dir, dst)
 
         _logger.info("Running build actions for %s", self._package_name)
-        for b in self.builds:
-            b.build(self._target_package, dst, context)
+        if self.builds is not None:
+            for b in self.builds:
+                b.build(self._target_package, dst, context)
 
         (dst / PackageFileName).unlink()
 
