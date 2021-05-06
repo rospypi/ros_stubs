@@ -18,6 +18,7 @@ from typing import (
 from genpy import Message as Message  # NOQA
 
 _TMessage = TypeVar("_TMessage", bound=Message)
+_TCallbackArgs = TypeVar("_TCallbackArgs")
 
 python3: int
 
@@ -80,15 +81,27 @@ class _TopicImpl(Generic[_TMessage]):
     def get_stats_info(self) -> List[Tuple[str, str, str, str, str, bool, str]]: ...
     def get_stats(self) -> Any: ...
 
-class Subscriber(Topic[_TMessage]):
-    callback: Callable[[_TMessage, ...], None] = ...
-    callback_args: Any = ...
+class Subscriber(Topic[_TMessage, _TCallbackArgs]):
+    callback: Callable[..., None] = ...
+    callback_args: _TCallbackArgs = ...
+    @overload
     def __init__(
-        self,
+        self: "Subscriber[_TMessage, _TCallbackArgs]",
         name: str,
         data_class: Type[_TMessage],
-        callback: Optional[Callable[_TMessage, ...]] = ...,
-        callback_args: Optional[Any] = ...,
+        callback: Optional[Callable[[_TMessage, _TCallbackArgs], None]] = ...,
+        callback_args: _TCallbackArgs = ...,
+        queue_size: Optional[int] = ...,
+        buff_size: int = ...,
+        tcp_nodelay: bool = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: "Subscriber[_TMessage, None]",
+        name: str,
+        data_class: Type[_TMessage],
+        callback: Optional[Callable[[_TMessage], None]] = ...,
+        callback_args: None = ...,
         queue_size: Optional[int] = ...,
         buff_size: int = ...,
         tcp_nodelay: bool = ...,
@@ -96,7 +109,7 @@ class Subscriber(Topic[_TMessage]):
     def unregister(self) -> None: ...
 
 class _SubscriberImpl(_TopicImpl[_TMessage]):
-    callbacks: List[Callable[[_TMessage, ...], None]] = ...
+    callbacks: List[Callable[..., None]] = ...
     queue_size: int = ...
     buff_size: int = ...
     tcp_nodelay: bool = ...
@@ -107,10 +120,20 @@ class _SubscriberImpl(_TopicImpl[_TMessage]):
     def set_queue_size(self, queue_size: int) -> None: ...
     def set_buff_size(self, buff_size: int) -> None: ...
     def get_stats(self) -> Tuple[str, List[Tuple[str, int, int, int, bool]]]: ...
+    @overload
+    def add_callback(self, cb: Callable[[_TMessage], None], cb_args: None) -> None: ...
+    @overload
     def add_callback(
-        self, cb: Callable[[_TMessage, ...], None], cb_args: Any
+        self, cb: Callable[[_TMessage, _TCallbackArgs], None], cb_args: _TCallbackArgs
     ) -> None: ...
-    def remove_callback(self, cb: Callable[[_TMessage, ...]], cb_args: Any) -> None: ...
+    @overload
+    def remove_callback(
+        self, cb: Callable[[_TMessage], None], cb_args: None
+    ) -> None: ...
+    @overload
+    def remove_callback(
+        self, cb: Callable[[_TMessage, _TCallbackArgs], None], cb_args: _TCallbackArgs
+    ) -> None: ...
     def receive_callback(self, msgs: _TMessage, connection: Any) -> None: ...
 
 class SubscribeListener:
