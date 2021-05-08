@@ -47,7 +47,7 @@ def run(
         build_dir=build_dir,
         artifacts_dir=artifacts_dir,
     )
-    ctx.variables["ROS_SHARE_DIR"] = "/opt/ros/melodic/share"
+    ctx.variables["ROS_SHARE_DIR"] = "/opt/ros/noetic/share"
     ctx.variables["BUILD_ENV_DIR"] = str(build_env_dir)
 
     _logger.info("Running buildtool")
