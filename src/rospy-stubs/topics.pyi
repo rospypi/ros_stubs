@@ -81,12 +81,12 @@ class _TopicImpl(Generic[_TMessage]):
     def get_stats_info(self) -> List[Tuple[str, str, str, str, str, bool, str]]: ...
     def get_stats(self) -> Any: ...
 
-class Subscriber(Topic[_TMessage, _TCallbackArgs]):
+class Subscriber(Topic[_TMessage]):
     callback: Callable[..., None] = ...
-    callback_args: _TCallbackArgs = ...
+    callback_args: Any = ...
     @overload
     def __init__(
-        self: "Subscriber[_TMessage, _TCallbackArgs]",
+        self,
         name: str,
         data_class: Type[_TMessage],
         callback: Optional[Callable[[_TMessage, _TCallbackArgs], None]] = ...,
@@ -97,7 +97,7 @@ class Subscriber(Topic[_TMessage, _TCallbackArgs]):
     ) -> None: ...
     @overload
     def __init__(
-        self: "Subscriber[_TMessage, None]",
+        self,
         name: str,
         data_class: Type[_TMessage],
         callback: Optional[Callable[[_TMessage], None]] = ...,
