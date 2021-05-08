@@ -68,8 +68,8 @@ jobs:
       run: |
           cd assets/
           pipenv run python publish_artifacts.py
-  update-pages:
-    name: Update gh_pages for rospypi/simple
+  build-pages:
+    name: Build gh_pages
     needs: build-stubs
     runs-on: ubuntu-latest
     steps:
