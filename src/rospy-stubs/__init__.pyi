@@ -1,3 +1,5 @@
+from std_msgs.msg import Header as Header  # NOQA
+
 from .client import DEBUG as DEBUG  # NOQA
 from .client import ERROR as ERROR  # NOQA
 from .client import FATAL as FATAL  # NOQA
@@ -55,6 +57,7 @@ from .rostime import get_rostime as get_rostime  # NOQA
 from .rostime import get_time as get_time  # NOQA
 from .service import ServiceException as ServiceException  # NOQA
 from .timer import Rate as Rate  # NOQA
+from .timer import Timer as Timer  # NOQA
 from .timer import sleep as sleep  # NOQA
 from .topics import Message as Message  # NOQA
 from .topics import Publisher as Publisher  # NOQA
