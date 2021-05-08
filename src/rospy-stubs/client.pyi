@@ -1,4 +1,17 @@
-from typing import Any, Callable, Dict, List, Mapping, Optional, Sequence, Type, TypeVar
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    List,
+    Mapping,
+    Optional,
+    Sequence,
+    Type,
+    TypeVar,
+    Union,
+)
+
+from genpy.rostime import Duration
 
 from .msproxy import MasterProxy
 from .topics import Message
@@ -36,7 +49,9 @@ class _WFM:
     def cb(self, msg: Message) -> None: ...
 
 def wait_for_message(
-    topic: str, topic_type: Type[_TMessage], timeout: Optional[int] = ...
+    topic: str,
+    topic_type: Type[_TMessage],
+    timeout: Optional[Union[float, Duration]] = ...,
 ) -> _TMessage: ...
 
 class _Unspecified: ...

@@ -1,4 +1,5 @@
 import threading
+from typing import overload
 
 from .rostime import Callable, Duration, Time
 
@@ -9,7 +10,10 @@ class Rate:
     def remaining(self) -> Time: ...
     def sleep(self) -> None: ...
 
+@overload
 def sleep(duration: Duration) -> None: ...
+@overload
+def sleep(duration: float) -> None: ...
 
 class TimerEvent:
     last_expected: Time = ...
