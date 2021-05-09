@@ -1,7 +1,7 @@
 import pathlib
 from typing import Any, Callable, Dict, List, Literal, Optional, Union
 
-import genpyi.cli
+import genmypy.cli
 from pydantic import PrivateAttr
 
 from .build_action import BuildAction
@@ -51,17 +51,17 @@ class StubBuild(BuildAction):
         include_paths = self.get_formatted_include_paths(package_dir, context)
 
         self._stubgen_impl(target_package, source_files, str(out_dir), include_paths)
-        genpyi.cli.run_module(str(source_dir), str(out_dir), "genmsg")
+        genmypy.cli.run_module(str(source_dir), str(out_dir), "genmsg")
 
 
 class MessageStubBuild(StubBuild):
     type: Literal["msg_stub_gen"]
     _source_extension = PrivateAttr(".msg")
-    _stubgen_impl = PrivateAttr(genpyi.cli.run_message)
+    _stubgen_impl = PrivateAttr(genmypy.cli.run_message)
 
 
 class ServiceStubBuild(StubBuild):
     type: Literal["srv_stub_gen"]
 
     _source_extension = PrivateAttr(".srv")
-    _stubgen_impl = PrivateAttr(genpyi.cli.run_service)
+    _stubgen_impl = PrivateAttr(genmypy.cli.run_service)
