@@ -30,6 +30,11 @@ If you find this repository doesn't have the stub package you want to contribute
 To create a new stub package, add a directory ending with name ending with `-stubs` under `src` directory.
 Also, please add `_package.yaml` in the directory to define the stub information.
 
+### Notes: Library versions that stub files target
+
+For packages listed in [rospypi/simple:packages.yaml](https://github.com/rospypi/simple/blob/master/packages.yaml), we will use the version in the list.
+For other libraries, it is preferable to maintain stub files for the latest version available on rosdistro or PyPI.
+
 ### Tips: Generate stub files automatically using stubgen
 
 You can automatically generate the stub file for either a package or a module using [`stubgen`](https://mypy.readthedocs.io/en/stable/stubgen.html).
