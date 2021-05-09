@@ -18,17 +18,12 @@ jobs:
     name: Build ros_stubs
     runs-on: ubuntu-latest
     container:
-      image: ros:melodic-ros-core
+      image: ros:noetic-ros-core
     steps:
-    - name: Set up apt
-      run: |
-          apt-get update -y
-          apt-get install -y --no-install-recommends software-properties-common
     - name: Set up git and ssh
       run: |
-          # In order to create a local git repository
-          # in actions/checkout@v2, git>=2.18 is required
-          add-apt-repository ppa:git-core/ppa
+          # actions/checkout@v2 requires git>=2.18, which is available in noetic-ros-core (focal)
+          # So we don't need to use ppa
           apt-get update -y
           apt-get install -y --no-install-recommends git git-lfs openssh-client
     - uses: actions/checkout@v2

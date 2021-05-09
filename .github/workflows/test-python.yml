@@ -11,7 +11,7 @@ env:
   DEBIAN_FRONTEND: noninteractive
   TOX_VERSION: 3.23.0
 jobs:
-  py37:
+  py38:
     name: py38
     runs-on: ubuntu-latest
     container:
