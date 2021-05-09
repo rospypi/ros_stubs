@@ -43,10 +43,10 @@
         },
         "genmypy": {
             "hashes": [
-                "sha256:038a8c7d31cf9a6f4cad1b79cf83666c38b34169482c3fa52094b1ecd6b42185",
-                "sha256:53fb12627fb683770d3b28cdcbd040e80b2edf0e9043490da22ae8c3819aeed7"
+                "sha256:502bb0ab2c838d0d2f2ad07f6fab8b4ba02498ca0e5366011780e1e7c397026e",
+                "sha256:e5d8c1383a1e6433794bcc8fb7816d17967f425550b048c264658d95173e2958"
             ],
-            "version": "==0.3.0"
+            "version": "==0.3.1"
         },
         "genpy": {
             "hashes": [
