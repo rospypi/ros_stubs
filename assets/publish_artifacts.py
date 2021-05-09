@@ -85,6 +85,19 @@ def commit_artifacts(repo: git.Repo) -> None:
 
 
 def push_artifacts(repo: git.Repo, head: git.Head) -> None:
+    # NOTE: In order to avoid the bad object error in git-lfs when force-pushing objects,
+    # run `git fetch` first from the remote.
+    # The error seems to happen when a newer git-lfs is installed.
+    # See: https://github.com/git-lfs/git-lfs/issues/3977
+    try:
+        repo.remote().fetch(refspec=head)
+    except git.GitCommandError as e:
+        print(
+            "Got an error while fetching remote.\n"
+            f"Error: {e}\n"
+            f"Maybe {head} doesn't exist in remote? -> continue"
+        )
+
     repo.remote().push(head, force=True)
 
 
