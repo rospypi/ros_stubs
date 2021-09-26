@@ -1,0 +1,17 @@
+major_version: 0
+minor_version: 1
+supported_versions: ">=1.6.0,<1.7.0"
+builds:
+  - type: msg_stub_gen
+    source_dir: "{BUILD_ENV_DIR}/dynamic_reconfigure/msg"
+    out_dir: msg/
+    include_paths: &include_paths
+      std_msgs:
+        - "{BUILD_ENV_DIR}/std_msgs/msg"
+      dynamic_reconfigure:
+        - "{BUILD_ENV_DIR}/dynamic_reconfigure/msg"
+  - type: srv_stub_gen
+    source_dir: "{BUILD_ENV_DIR}/dynamic_reconfigure/srv"
+    out_dir: srv/
+    include_paths:
+      <<: *include_paths
