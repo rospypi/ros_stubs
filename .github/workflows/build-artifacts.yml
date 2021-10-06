@@ -46,6 +46,7 @@ jobs:
         echo DEPLOY_BRANCH=stubs >> $GITHUB_ENV
     - name: Build and push artifacts
       if: startsWith(github.ref, 'refs/tags/') || github.ref == env.MASTER_BRANCH
+      id: release
       env:
         GIT_SSH_COMMAND: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
@@ -60,7 +61,7 @@ jobs:
             --url git@github.com:rospypi/simple.git \
             --branch ${DEPLOY_BRANCH:-stubs_pre} --ref-branch stubs --push
     - name: Build artifacts
-      if: !startsWith(github.ref, 'refs/tags/') && github.ref != env.MASTER_BRANCH
+      if: steps.release.conclusion == 'skipped'
       run: |
           cd assets/
           pipenv run python publish_artifacts.py
