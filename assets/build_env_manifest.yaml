@@ -71,6 +71,9 @@
     - pycryptodome
     - pycryptodomex
     - rospy
+- name: dynamic_reconfigure
+  repository: ros/dynamic_reconfigure
+  version: 1.6.0
 - name: rosmaster
   repository: ros/ros_comm
   version: 1.15.7
