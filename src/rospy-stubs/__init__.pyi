@@ -25,19 +25,24 @@ from .core import is_shutdown as is_shutdown  # NOQA
 from .core import logdebug as logdebug  # NOQA
 from .core import logdebug_once as logdebug_once  # NOQA
 from .core import logdebug_throttle as logdebug_throttle  # NOQA
+from .core import logdebug_throttle_identical as logdebug_throttle_identical  # NOQA
 from .core import logerr as logerr  # NOQA
 from .core import logerr_once as logerr_once  # NOQA
 from .core import logerr_throttle as logerr_throttle  # NOQA
+from .core import logerr_throttle_identical as logerr_throttle_identical  # NOQA
 from .core import logfatal as logfatal  # NOQA
 from .core import logfatal_once as logfatal_once  # NOQA
 from .core import logfatal_throttle as logfatal_throttle  # NOQA
+from .core import logfatal_throttle_identical as logfatal_throttle_identical  # NOQA
 from .core import loginfo as loginfo  # NOQA
 from .core import loginfo_once as loginfo_once  # NOQA
 from .core import loginfo_throttle as loginfo_throttle  # NOQA
+from .core import loginfo_throttle_identical as loginfo_throttle_identical  # NOQA
 from .core import logout as logout  # NOQA
 from .core import logwarn as logwarn  # NOQA
 from .core import logwarn_once as logwarn_once  # NOQA
 from .core import logwarn_throttle as logwarn_throttle  # NOQA
+from .core import logwarn_throttle_identical as logwarn_throttle_identical  # NOQA
 from .core import parse_rosrpc_uri as parse_rosrpc_uri  # NOQA
 from .core import signal_shutdown as signal_shutdown  # NOQA
 from .exceptions import *  # NOQA
