@@ -18,6 +18,10 @@ jobs:
       # python:3.8-buster has git>=2.20 which actions/checkout@v2 requires
       image: python:3.8-buster
     steps:
+    - name: Configure git
+      shell: bash
+      run: |
+          git config --global --add safe.directory $(pwd)
     - uses: actions/checkout@v2
     - name: Set up Python
       run: |

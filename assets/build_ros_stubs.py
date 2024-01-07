@@ -51,7 +51,7 @@ def run(
     ctx.variables["BUILD_ENV_DIR"] = str(build_env_dir)
 
     _logger.info("Running buildtool")
-    artifacts = builder.build(ctx)
+    artifacts: List[builder.ArtifactInfo] = builder.build(ctx)
     print(" ===== Build Result =====")
     for artifact in artifacts:
         previous_version = "-"
